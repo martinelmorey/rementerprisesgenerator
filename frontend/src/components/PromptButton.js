@@ -7,7 +7,7 @@ const PromptButton = ({ setPrompt }) => {
 
   const generatePrompt = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/generate-prompt');
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/generate-prompt`);
       setPrompt(response.data.prompt); 
     } catch (error) {
       console.error('Error generating prompt:', error);

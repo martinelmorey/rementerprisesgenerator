@@ -18,7 +18,6 @@ import { getAuth } from 'firebase/auth';
 
 
 
-const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const { currentUser } = useAuth();
@@ -36,6 +35,21 @@ function App() {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  // Cargar imagen de referencia desde localStorage al montar el componente
+  React.useEffect(() => {
+    const savedReference = localStorage.getItem('referenceImage');
+    if (savedReference) {
+      const referenceData = JSON.parse(savedReference);
+      setImage(referenceData.imageUrl);
+      setPrompt(referenceData.prompt);
+      if (referenceData.selectedLoras) {
+        setSelectedLoras(referenceData.selectedLoras);
+      }
+      // Limpiar localStorage después de cargar
+      localStorage.removeItem('referenceImage');
+    }
+  }, []);
 
   const handleLoraChange = (lora) => {
     setSelectedLoras(prevSelectedLoras => {
@@ -69,7 +83,7 @@ function App() {
           
           formData.append('prompt', prompt);
   
-          const response = await axios.post(`${API_URL}/generate-image-pulid`, formData, {
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/generate-image-pulid`, formData, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'multipart/form-data'
@@ -85,7 +99,7 @@ function App() {
           }
         } else {
           // LoRAs image generation
-          const response = await axios.post(`${API_URL}/generate-image`, {
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/generate-image`, {
             prompt,
             selectedLoras,
           }, {

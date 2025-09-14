@@ -512,12 +512,21 @@ app.get('/api/user-generated-images', authenticate, async (req, res) => {
   }
 });
 
-
-
-
-
-
-
+// Endpoint para eliminar una imagen generada
+app.delete('/api/generated-images/:imageId', authenticate, async (req, res) => {
+  try {
+    const { imageId } = req.params;
+    const firestore = admin.firestore();
+    
+    // Eliminar de la subcolección del usuario
+    await firestore.collection('users').doc(req.user.uid).collection('generatedImages').doc(imageId).delete();
+    
+    res.json({ success: true, message: 'Imagen eliminada correctamente' });
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    res.status(500).json({ message: 'Error eliminando la imagen' });
+  }
+});
 
 // Generate Image with Pulid Model
 app.post('/generate-image-pulid', authenticate, upload.fields([

@@ -4,13 +4,14 @@ import Swal from 'sweetalert2';
 import { useAuth } from '../providers/AuthContext';
 import { CloudArrowDownIcon, ShoppingBagIcon, TrashIcon, BeakerIcon } from '@heroicons/react/24/outline';
 import Loader from './Loader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const GeneratedImagesList = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({});
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!currentUser) return;
@@ -18,7 +19,7 @@ const GeneratedImagesList = () => {
     const fetchGeneratedImages = async () => {
       try {
         const token = await currentUser.getIdToken();
-        const response = await axios.get('http://localhost:5000/api/user-generated-images', {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/user-generated-images`, {
           headers: {
             Authorization: `Bearer ${token}`, 
           },
@@ -66,7 +67,25 @@ const GeneratedImagesList = () => {
   };
 
   const handleGenerateProduct = (image) => {
-    console.log(`Botón de generar producto presionado para la imagen con prompt: ${image.prompt}`);
+    console.log('Botón de carrito presionado para imagen:', image);
+    
+    // Guardar la imagen de referencia en localStorage para usar en el generador de mockups
+    const mockupData = {
+      imageUrl: image.imageUrl,
+      prompt: image.prompt,
+      generationMode: image.generationMode,
+      selectedLoras: image.selectedLoras
+    };
+    
+    console.log('Guardando en localStorage:', mockupData);
+    localStorage.setItem('mockupImage', JSON.stringify(mockupData));
+    
+    // Verificar que se guardó correctamente
+    const saved = localStorage.getItem('mockupImage');
+    console.log('Verificación localStorage:', saved);
+    
+    // Navegar al generador de mockups usando React Router
+    navigate('/mockups');
   };
 
   const handleDeleteImage = async (imageId) => {
@@ -84,13 +103,13 @@ const GeneratedImagesList = () => {
     if (result.isConfirmed) {
       try {
         const token = await currentUser.getIdToken();
-        await axios.delete(`http://localhost:5000/api/generated-images/${imageId}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/generated-images/${imageId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        setImages(images.filter(image => image._id !== imageId));
+        setImages(images.filter(image => image.id !== imageId));
 
         Swal.fire('¡Eliminada!', 'La imagen ha sido eliminada.', 'success');
       } catch (error) {
@@ -128,7 +147,7 @@ const GeneratedImagesList = () => {
       <div className='galeriaImagenes'>
         <ul>
           {images.map((image) => (
-            <li key={image._id}>
+            <li key={image.id}>
               <img 
                 src={image.imageUrl} 
                 alt="Generated" 
@@ -155,7 +174,7 @@ const GeneratedImagesList = () => {
                 </button>
 
                 <button 
-                  onClick={() => handleDeleteImage(image._id)}
+                  onClick={() => handleDeleteImage(image.id)}
                   className="delete-button"
                   style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                 >

@@ -5,7 +5,7 @@ const ImprovePromptGeneradorId = ({ prompt, setPrompt, setIsCustomPrompt }) => {
 
   const improvePrompt = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/improve-prompt-generador-id', { prompt });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/improve-prompt-generador-id`, { prompt });
       setPrompt(response.data.improvedPrompt); 
       setIsCustomPrompt(false);
     } catch (error) {
