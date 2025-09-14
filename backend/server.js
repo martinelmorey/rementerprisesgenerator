@@ -1,16 +1,23 @@
-const express = require('express');
-const multer = require('multer');
-const axios = require('axios'); 
-const fal = require('@fal-ai/serverless-client');
-const cors = require('cors');
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-require('dotenv').config();
-const admin = require('firebase-admin'); // Asegúrate de importar Firebase Admin
+import express from 'express';
+import multer from 'multer';
+import axios from 'axios'; 
+import fal from '@fal-ai/serverless-client';
+import cors from 'cors';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import dotenv from 'dotenv';
+import admin from 'firebase-admin';
+import connectDB from './database.js';
+import productosAIRoutes from './routes/productosAI.js';
+
+dotenv.config();
+
+// Conectar a MongoDB
+connectDB();
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 // Autenticación Firebase
-const authenticate = require('./middleware/authMiddleware'); 
+import authenticate from './middleware/authMiddleware.js'; 
 
 
 const app = express();
@@ -35,8 +42,8 @@ app.use(cors());
 //Para manejar archivos
 const upload = multer(); 
 
-
-
+// Rutas de productos AI
+app.use('/api/productos-ai', productosAIRoutes);
 
 // Configuración de Google Generative 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
@@ -454,7 +461,9 @@ const generateImage = async (req, res) => {
     await firestore.collection('users').doc(req.user.uid).collection('generatedImages').add({
       prompt: finalPrompt,
       imageUrl: result.images[0].url,  // URL de la imagen generada
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      selectedLoras: selectedLoras,
+      generationMode: 'Flux LoRA',
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
     res.json(result);

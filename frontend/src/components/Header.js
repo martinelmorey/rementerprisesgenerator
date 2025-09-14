@@ -1,9 +1,10 @@
 // Header.js
 import React from 'react';
-import { useAuth } from './users/hooks/useAuth';
+import { useAuth } from '../providers/AuthContext';
 
 function Header({ toggleSidebar }) { // Acepta toggleSidebar como prop
-  const { isLoggedIn } = useAuth();
+  const { currentUser } = useAuth();
+  const isLoggedIn = !!currentUser;
 
   return (
     <header className="header">

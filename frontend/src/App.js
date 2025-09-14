@@ -13,7 +13,7 @@ import Payment from './components/Payment';
 import GeneratedImagesList from './components/GeneratedImageList';
 import SideBar from './components/SideBar';
 import ComoFunciona from './components/ComoFunciona';
-import { useAuth } from './components/users/hooks/useAuth';
+import { useAuth } from './providers/AuthContext';
 import { getAuth } from 'firebase/auth';
 
 
@@ -21,7 +21,8 @@ import { getAuth } from 'firebase/auth';
 const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
-  const { isLoggedIn } = useAuth(); 
+  const { currentUser } = useAuth();
+  const isLoggedIn = !!currentUser; 
   const [prompt, setPrompt] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);

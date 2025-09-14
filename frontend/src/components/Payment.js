@@ -1,17 +1,17 @@
 // Payment.js
 import React, { useState } from 'react';
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { useAuth } from './users/hooks/useAuth';
+import { useAuth } from '../providers/AuthContext';
 import { doc, updateDoc, increment } from 'firebase/firestore';
-import { firestore } from '../firebase/firebase'; 
+import { db } from '../firebase/firebase'; 
 import Swal from 'sweetalert2';  
 
 
 const Payment = () => {
   const [selectedAmount, setSelectedAmount] = useState(5);
-  const { isLoggedIn, loggedInUser, userData } = useAuth();
+  const { currentUser } = useAuth();
 
-  if (!isLoggedIn || !userData) {
+  if (!currentUser) {
     return <div>Por favor, inicia sesión para comprar creditos.</div>;
   }
 
@@ -25,7 +25,7 @@ const Payment = () => {
 
   const handleApprove = async (orderId) => {
     try {
-      if (!loggedInUser) {
+      if (!currentUser) {
         console.error('Usuario no autenticado');
         Swal.fire({
           title: 'Iniciar sesión requerida',
@@ -36,7 +36,7 @@ const Payment = () => {
         return;
       }
 
-      const userRef = doc(firestore, 'users', loggedInUser.uid);
+      const userRef = doc(db, 'users', currentUser.uid);
       const selectedOption = amounts.find(a => a.value === selectedAmount);
       const pointsToAdd = selectedOption.points;
 

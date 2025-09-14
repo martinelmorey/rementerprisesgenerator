@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const firestore = getFirestore(app);
+const db = getFirestore(app);
 const googleAuthProvider = new GoogleAuthProvider();
 
-export { app, auth, firestore, googleAuthProvider, signInWithPopup, signInWithRedirect };
+export { app, auth, db, googleAuthProvider, signInWithPopup, signInWithRedirect };

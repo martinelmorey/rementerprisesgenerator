@@ -1,13 +1,17 @@
 import React from 'react';
-import { useAuth } from './users/hooks/useAuth';
+import { useAuth } from '../providers/AuthContext';
+import { useUserCredits } from '../hooks/useUserCredits';
 import { Link } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
 import { ShoppingBagIcon, BeakerIcon, PhotoIcon, CreditCardIcon, InformationCircleIcon, ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
-  const { isLoggedIn, userData, handleLogOut } = useAuth();
+  const { currentUser } = useAuth();
+  const { credits, userTypeLabel, loading } = useUserCredits();
 
-  if (!isLoggedIn || !userData) {
+  if (!currentUser) {
     return null;
   }
 
@@ -17,11 +21,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       <button className="close-btn" onClick={toggleSidebar}>Cerrar</button>
       <div className='menusidebar'>
         <h3>Bienvenido</h3>
-        <h5>{userData.name}</h5>
+        <h5>{currentUser.displayName || currentUser.email}</h5>
         
         <div className='contenedortipouser'>
-          <p><strong>Creditos:</strong> {userData.points}</p>
-          <p><strong>Suscripción:</strong> {userData.subscriptionStatus}</p>
+          <p><strong>Creditos:</strong> {loading ? '...' : credits}</p>
+          <p><strong>Suscripción:</strong> {loading ? '...' : userTypeLabel}</p>
         </div>
   
         <ul>
@@ -52,7 +56,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </li>
           <li>
             <span
-              onClick={handleLogOut}
+              onClick={() => signOut(auth)}
               style={{ cursor: 'pointer' }}
             >
               <ArrowLeftOnRectangleIcon className="iconbutton" /> CERRAR SESIÓN
