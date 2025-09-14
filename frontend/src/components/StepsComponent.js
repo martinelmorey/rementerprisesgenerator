@@ -70,7 +70,7 @@ const StepsComponent = ({
       
       {step === 1 && (
         <div className="mb-5">
-          <h1 className="mb-4">Bienvenidos a REM ENTERPRISES AI</h1>
+          <h1 className="mb-4">Bienvenidosss a REM ENTERPRISES AI</h1>
           <p className="text">
             En REM ENTERPRISES, una empresa orgullosamente uruguaya, estamos utilizando la inteligencia artificial para transformar tus ideas en arte digital. Con nuestro generador, tienes la oportunidad de crear imágenes únicas y sorprendentes.
           </p>
