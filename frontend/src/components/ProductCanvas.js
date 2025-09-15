@@ -257,28 +257,50 @@ useEffect(() => {
   return (
     <div style={{ 
       display: 'flex', 
-      gap: '20px', 
-      padding: '20px',
+      gap: '30px', 
+      padding: '30px',
       minHeight: '100vh',
-      backgroundColor: '#f5f5f5'
+      backgroundColor: '#0a0a0a',
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
     }}>
       {/* Panel izquierdo - Controles */}
       <div style={{ 
-        width: '350px', 
-        backgroundColor: 'white', 
-        borderRadius: '12px', 
-        padding: '20px',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+        width: '380px', 
+        background: 'linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%)', 
+        border: '2px solid #333333',
+        borderRadius: '20px', 
+        padding: '30px',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 136, 0.1)',
         height: 'fit-content',
         position: 'sticky',
-        top: '20px'
+        top: '30px'
       }}>
-        <h2 style={{ margin: '0 0 20px 0', color: '#333' }}>Generador de Mockups</h2>
+        <h2 style={{ 
+          margin: '0 0 30px 0', 
+          color: '#ffffff',
+          fontSize: '1.8rem',
+          fontWeight: '700',
+          textAlign: 'center',
+          background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }}>Configuración</h2>
         
         {/* Selector de productos */}
-        <div style={{ marginBottom: '25px' }}>
-          <h3 style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#555' }}>Productos a crear:</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ marginBottom: '30px' }}>
+          <h3 style={{ 
+            margin: '0 0 20px 0', 
+            fontSize: '1.1rem', 
+            color: '#00ff88',
+            fontWeight: '600',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+          Productos a crear:
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             {[
               { key: 'frame', icon: '🖼️', name: 'Cuadro' },
               { key: 'pillow', icon: '🛏️', name: 'Almohadón' },
@@ -287,44 +309,78 @@ useEffect(() => {
               <label key={product.key} style={{ 
                 display: 'flex', 
                 alignItems: 'center', 
-                gap: '12px',
-                padding: '12px',
-                borderRadius: '8px',
-                backgroundColor: selectedProducts[product.key] ? '#e3f2fd' : '#f9f9f9',
-                border: selectedProducts[product.key] ? '2px solid #2196f3' : '2px solid #e0e0e0',
+                gap: '15px',
+                padding: '18px',
+                borderRadius: '12px',
+                backgroundColor: selectedProducts[product.key] ? 'rgba(0, 255, 136, 0.1)' : '#0f0f0f',
+                border: selectedProducts[product.key] ? '2px solid #00ff88' : '2px solid #333333',
                 cursor: 'pointer',
-                transition: 'all 0.2s'
+                transition: 'all 0.3s ease',
+                position: 'relative',
+                overflow: 'hidden'
               }}>
                 <input 
                   type="checkbox" 
                   checked={selectedProducts[product.key]}
                   onChange={() => handleProductSelection(product.key)}
-                  style={{ transform: 'scale(1.2)' }}
+                  style={{ 
+                    transform: 'scale(1.3)',
+                    accentColor: '#00ff88',
+                    cursor: 'pointer'
+                  }}
                 />
-                <span style={{ fontSize: '20px' }}>{product.icon}</span>
-                <span style={{ fontWeight: selectedProducts[product.key] ? 'bold' : 'normal' }}>
+                <span style={{ fontSize: '24px' }}>{product.icon}</span>
+                <span style={{ 
+                  fontWeight: selectedProducts[product.key] ? '700' : '500',
+                  color: selectedProducts[product.key] ? '#ffffff' : '#cccccc',
+                  fontSize: '1.1rem'
+                }}>
                   {product.name}
                 </span>
+                {selectedProducts[product.key] && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '8px',
+                    right: '8px',
+                    backgroundColor: '#00ff88',
+                    borderRadius: '50%',
+                    width: '8px',
+                    height: '8px',
+                    boxShadow: '0 0 10px rgba(0, 255, 136, 0.5)'
+                  }}></div>
+                )}
               </label>
             ))}
           </div>
           <div style={{ 
-            marginTop: '15px', 
-            padding: '10px',
-            backgroundColor: '#f0f8ff',
-            borderRadius: '6px',
+            marginTop: '20px', 
+            padding: '15px',
+            background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 106, 0.1) 100%)',
+            border: '1px solid rgba(0, 255, 136, 0.3)',
+            borderRadius: '12px',
             textAlign: 'center',
-            fontWeight: 'bold',
-            color: '#1976d2'
+            fontWeight: '700',
+            color: '#00ff88',
+            fontSize: '1.1rem'
           }}>
-            {getSelectedProductsCount()} productos seleccionados
+            ✨ {getSelectedProductsCount()} productos seleccionados
           </div>
         </div>
 
         {/* Selector de mockup para ajustar */}
-        <div style={{ marginBottom: '25px' }}>
-          <h3 style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#555' }}>Ajustar:</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ marginBottom: '30px' }}>
+          <h3 style={{ 
+            margin: '0 0 20px 0', 
+            fontSize: '1.1rem', 
+            color: '#00ff88',
+            fontWeight: '600',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+          Ajustar:
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {[
               { key: 'frame', icon: '🖼️', name: 'Cuadro' },
               { key: 'pillow', icon: '🛏️', name: 'Almohadón' },
@@ -334,35 +390,59 @@ useEffect(() => {
                 key={mockup.key}
                 onClick={() => handleMockupChange(mockup.key)}
                 style={{
-                  padding: '12px 16px',
-                  border: 'none',
-                  borderRadius: '8px',
-                  backgroundColor: selectedMockup === mockup.key ? '#2196f3' : '#f5f5f5',
-                  color: selectedMockup === mockup.key ? 'white' : '#333',
+                  padding: '15px 20px',
+                  border: selectedMockup === mockup.key ? '2px solid #00ff88' : '2px solid #333333',
+                  borderRadius: '12px',
+                  background: selectedMockup === mockup.key ? 
+                    'linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 204, 106, 0.2) 100%)' : 
+                    '#0f0f0f',
+                  color: selectedMockup === mockup.key ? '#ffffff' : '#cccccc',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px',
-                  transition: 'all 0.2s',
-                  fontWeight: selectedMockup === mockup.key ? 'bold' : 'normal'
+                  gap: '12px',
+                  transition: 'all 0.3s ease',
+                  fontWeight: selectedMockup === mockup.key ? '700' : '500',
+                  fontSize: '1rem',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
               >
-                <span>{mockup.icon}</span>
+                <span style={{ fontSize: '20px' }}>{mockup.icon}</span>
                 <span>{mockup.name}</span>
+                {selectedMockup === mockup.key && (
+                  <div style={{
+                    marginLeft: 'auto',
+                    backgroundColor: '#00ff88',
+                    borderRadius: '50%',
+                    width: '8px',
+                    height: '8px',
+                    boxShadow: '0 0 10px rgba(0, 255, 136, 0.5)'
+                  }}></div>
+                )}
               </button>
             ))}
           </div>
         </div>
 
         {/* Editor de imagen */}
-        <div style={{ marginBottom: '25px' }}>
-          <h3 style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#555' }}>
-            Ajustar imagen en {selectedMockup === 'frame' ? 'Cuadro' : selectedMockup === 'pillow' ? 'Almohadón' : 'Remera'}:
+        <div style={{ marginBottom: '30px' }}>
+          <h3 style={{ 
+            margin: '0 0 20px 0', 
+            fontSize: '1.1rem', 
+            color: '#00ff88',
+            fontWeight: '600',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+          Ajustar imagen en {selectedMockup === 'frame' ? 'Cuadro' : selectedMockup === 'pillow' ? 'Almohadón' : 'Remera'}:
           </h3>
           <div style={{ 
-            border: '2px solid #e0e0e0', 
-            borderRadius: '8px',
-            backgroundColor: '#fafafa'
+            border: '2px solid #333333', 
+            borderRadius: '15px',
+            backgroundColor: '#0f0f0f',
+            padding: '5px'
           }}>
             <Stage width={310} height={310}>
               <Layer>
@@ -370,8 +450,14 @@ useEffect(() => {
               </Layer>
             </Stage>
           </div>
-          <p style={{ fontSize: '12px', color: '#666', margin: '10px 0 0 0' }}>
-            Arrastra los controles para ajustar posición, tamaño y rotación
+          <p style={{ 
+            fontSize: '0.9rem', 
+            color: '#888888', 
+            margin: '15px 0 0 0',
+            textAlign: 'center',
+            fontStyle: 'italic'
+          }}>
+            💡 Arrastra los controles para ajustar posición, tamaño y rotación
           </p>
         </div>
 
@@ -381,29 +467,53 @@ useEffect(() => {
           disabled={isCreatingProduct || getSelectedProductsCount() === 0}
           style={{
             width: '100%',
-            padding: '16px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            backgroundColor: getSelectedProductsCount() === 0 ? '#ccc' : '#4caf50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
+            padding: '20px',
+            fontSize: '1.1rem',
+            fontWeight: '700',
+            background: getSelectedProductsCount() === 0 ? 
+              'linear-gradient(135deg, #333333 0%, #1a1a1a 100%)' : 
+              'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+            color: getSelectedProductsCount() === 0 ? '#666666' : '#000000',
+            border: getSelectedProductsCount() === 0 ? '2px solid #333333' : '2px solid #00ff88',
+            borderRadius: '15px',
             cursor: getSelectedProductsCount() === 0 ? 'not-allowed' : 'pointer',
             opacity: isCreatingProduct ? 0.7 : 1,
-            transition: 'all 0.2s'
+            transition: 'all 0.3s ease',
+            boxShadow: getSelectedProductsCount() === 0 ? 
+              'none' : 
+              '0 10px 30px rgba(0, 255, 136, 0.3)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseEnter={(e) => {
+            if (getSelectedProductsCount() > 0 && !isCreatingProduct) {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 15px 40px rgba(0, 255, 136, 0.4)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (getSelectedProductsCount() > 0 && !isCreatingProduct) {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 10px 30px rgba(0, 255, 136, 0.3)';
+            }
           }}
         >
-          {isCreatingProduct ? '🔄 Creando...' : `🛒 Crear ${getSelectedProductsCount()} producto(s)`}
+          <span style={{ position: 'relative', zIndex: 1 }}>
+            {isCreatingProduct ? '🔄 Creando...' : `🚀 Crear ${getSelectedProductsCount()} producto(s)`}
+          </span>
         </button>
         
         {getSelectedProductsCount() === 0 && (
           <p style={{ 
-            color: '#f44336', 
-            fontSize: '14px', 
+            color: '#ff6b6b', 
+            fontSize: '0.9rem', 
             textAlign: 'center',
-            margin: '10px 0 0 0'
+            margin: '15px 0 0 0',
+            fontWeight: '500'
           }}>
-            Selecciona al menos un producto
+            ⚠️ Selecciona al menos un producto
           </p>
         )}
       </div>
@@ -411,19 +521,31 @@ useEffect(() => {
       {/* Panel derecho - Vista previa */}
       <div style={{ 
         flex: 1,
-        backgroundColor: 'white',
-        borderRadius: '12px',
-        padding: '20px',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+        background: 'linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%)',
+        border: '2px solid #333333',
+        borderRadius: '20px',
+        padding: '30px',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 136, 0.1)'
       }}>
-        <h2 style={{ margin: '0 0 20px 0', color: '#333' }}>Vista Previa en Tiempo Real</h2>
+        <h2 style={{ 
+          margin: '0 0 30px 0', 
+          color: '#ffffff',
+          fontSize: '1.8rem',
+          fontWeight: '700',
+          textAlign: 'center',
+          background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }}>Vista Previa en Tiempo Real</h2>
         
         {/* Tabs para mockups */}
         <div style={{ 
           display: 'flex', 
-          gap: '10px', 
-          marginBottom: '20px',
-          borderBottom: '2px solid #f0f0f0'
+          gap: '15px', 
+          marginBottom: '30px',
+          borderBottom: '2px solid #333333',
+          paddingBottom: '15px'
         }}>
           {[
             { key: 'frame', icon: '🖼️', name: 'Cuadro' },
@@ -434,29 +556,32 @@ useEffect(() => {
               key={tab.key}
               onClick={() => setSelectedMockup(tab.key)}
               style={{
-                padding: '12px 20px',
+                padding: '15px 25px',
                 border: 'none',
-                borderBottom: selectedMockup === tab.key ? '3px solid #2196f3' : '3px solid transparent',
-                backgroundColor: 'transparent',
+                borderBottom: selectedMockup === tab.key ? '3px solid #00ff88' : '3px solid transparent',
+                backgroundColor: selectedMockup === tab.key ? 'rgba(0, 255, 136, 0.1)' : 'transparent',
+                borderRadius: '12px 12px 0 0',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                fontWeight: selectedMockup === tab.key ? 'bold' : 'normal',
-                color: selectedMockup === tab.key ? '#2196f3' : '#666',
-                transition: 'all 0.2s'
+                gap: '10px',
+                fontWeight: selectedMockup === tab.key ? '700' : '500',
+                color: selectedMockup === tab.key ? '#00ff88' : '#888888',
+                transition: 'all 0.3s ease',
+                fontSize: '1rem'
               }}
             >
-              <span>{tab.icon}</span>
+              <span style={{ fontSize: '20px' }}>{tab.icon}</span>
               <span>{tab.name}</span>
               {selectedProducts[tab.key] && (
                 <span style={{ 
-                  backgroundColor: '#4caf50', 
-                  color: 'white', 
+                  backgroundColor: '#00ff88', 
+                  color: '#000000', 
                   borderRadius: '50%', 
-                  width: '8px', 
-                  height: '8px',
-                  display: 'inline-block'
+                  width: '10px', 
+                  height: '10px',
+                  display: 'inline-block',
+                  boxShadow: '0 0 10px rgba(0, 255, 136, 0.5)'
                 }}></span>
               )}
             </button>
@@ -467,13 +592,14 @@ useEffect(() => {
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center',
-          marginBottom: '20px'
+          marginBottom: '30px'
         }}>
           <div style={{ 
-            border: '3px solid #e0e0e0',
-            borderRadius: '12px',
-            padding: '10px',
-            backgroundColor: '#fafafa'
+            border: '3px solid #333333',
+            borderRadius: '20px',
+            padding: '15px',
+            backgroundColor: '#0f0f0f',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
           }}>
             {selectedMockup === 'frame' && (
               <FrameMockup
@@ -502,18 +628,39 @@ useEffect(() => {
         {/* Indicador de estado */}
         <div style={{ 
           textAlign: 'center',
-          padding: '15px',
-          backgroundColor: selectedProducts[selectedMockup] ? '#e8f5e8' : '#fff3e0',
-          borderRadius: '8px',
-          border: selectedProducts[selectedMockup] ? '2px solid #4caf50' : '2px solid #ff9800'
+          padding: '20px',
+          background: selectedProducts[selectedMockup] ? 
+            'linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 106, 0.1) 100%)' : 
+            'linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%)',
+          borderRadius: '15px',
+          border: selectedProducts[selectedMockup] ? '2px solid #00ff88' : '2px solid #ff6b6b',
+          boxShadow: selectedProducts[selectedMockup] ? 
+            '0 8px 25px rgba(0, 255, 136, 0.2)' : 
+            '0 8px 25px rgba(255, 107, 107, 0.2)'
         }}>
           {selectedProducts[selectedMockup] ? (
-            <span style={{ color: '#2e7d32', fontWeight: 'bold' }}>
-              ✅ Este producto será creado
+            <span style={{ 
+              color: '#00ff88', 
+              fontWeight: '700',
+              fontSize: '1.1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px'
+            }}>
+              <span>✅</span> Este producto será creado
             </span>
           ) : (
-            <span style={{ color: '#f57c00', fontWeight: 'bold' }}>
-              ⚠️ Este producto no está seleccionado
+            <span style={{ 
+              color: '#ff6b6b', 
+              fontWeight: '700',
+              fontSize: '1.1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px'
+            }}>
+              <span>⚠️</span> Este producto no está seleccionado
             </span>
           )}
         </div>
