@@ -147,7 +147,15 @@ const GeneratedImagesList = () => {
       <div className='galeriaImagenes'>
         <ul>
           {images.map((image) => (
-            <li key={image.id}>
+            <li 
+              style={{ 
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                padding: '15px',
+                position: 'relative',
+                background: 'linear-gradient(145deg, rgb(11, 11, 11) 0%, rgba(66, 66, 66, 0.39) 100%)'
+              }}
+              key={image.id}>
               <img 
                 src={image.imageUrl} 
                 alt="Generated" 

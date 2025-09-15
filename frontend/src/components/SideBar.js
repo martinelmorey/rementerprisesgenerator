@@ -40,13 +40,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </Link>
           </li>
           <li>
-            <Link to="/payment" onClick={toggleSidebar}>
-              <CreditCardIcon className="iconbutton" /> CRÉDITOS
+            <Link to="/mis-productos" onClick={toggleSidebar}>
+              <ShoppingBagIcon className="iconbutton" /> MIS PRODUCTOS AI
             </Link>
           </li>
           <li>
-            <Link to="/mis-productos" onClick={toggleSidebar}>
-              <ShoppingBagIcon className="iconbutton" /> MIS PRODUCTOS AI
+            <Link to="/payment" onClick={toggleSidebar}>
+              <CreditCardIcon className="iconbutton" /> CRÉDITOS
             </Link>
           </li>
           <li>

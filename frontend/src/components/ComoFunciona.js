@@ -88,7 +88,7 @@ const ComoFunciona = () => {
 
           </div>
           
-          <p className="text text-success">
+          <p>
             Consejo: No tengas miedo de experimentar. La creatividad no tiene límites aquí, y cada nueva combinación de palabras puede dar vida a algo extraordinario.
           </p>
           

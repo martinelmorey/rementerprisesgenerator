@@ -134,8 +134,8 @@ function MisProductosAI() {
               border: '1px solid #ddd',
               borderRadius: '8px',
               padding: '15px',
-              backgroundColor: 'white',
-              position: 'relative'
+              position: 'relative',
+              background: 'linear-gradient(145deg, rgb(11, 11, 11) 0%, rgba(66, 66, 66, 0.39) 100%)'
             }}>
               {/* Botón de eliminar */}
               <button
@@ -144,24 +144,30 @@ function MisProductosAI() {
                   position: 'absolute',
                   top: '10px',
                   right: '10px',
-                  background: 'rgba(239, 68, 68, 0.9)',
-                  border: 'none',
+                  background: '#00ff88',
+                  border: '1px solid #00ff88',
                   borderRadius: '6px',
-                  padding: '8px',
+                  padding: '0',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'all 0.2s',
-                  zIndex: 10
+                  zIndex: 10,
+                  width: '50px',
+                  height: '50px',
+                  color: '#ffffff'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(239, 68, 68, 1)';
-                  e.target.style.transform = 'scale(1.1)';
+                  e.target.style.background = '#000000';
+                  e.target.style.color = '#00ff88';
+                  const icon = e.target.querySelector('svg');
+                  if (icon) icon.style.color = '#00ff88';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = 'rgba(239, 68, 68, 0.9)';
-                  e.target.style.transform = 'scale(1)';
+                  e.target.style.background = '#00ff88';
+                  e.target.style.color = '#ffffff';
+                  const icon = e.target.querySelector('svg');
+                  if (icon) icon.style.color = 'white';
                 }}
                 title={`Eliminar ${producto.name}`}
               >

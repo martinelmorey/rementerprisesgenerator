@@ -7,11 +7,11 @@
 }
 
 .title {
-  color: #018e38;
+  color: #00ff88;
 }
 
 .subtitle {
-  color: #018e38;
+  color: #00ff88;
 }
 
 .text {
@@ -28,8 +28,8 @@
 }
 
 .btn, button{
-  background-color: #018e38;
-  border: 1px solid #018e38;
+  background-color: #00ff88;
+  border: 1px solid #00ff88;
   color: #ffffff;
   border-radius: 5px;
   padding: 8px 20px;
@@ -39,26 +39,26 @@
 
 .btn.btn-secondary.mb-3.btn-primary{
   background-color: #000000;
-  border: 1px solid #018e38;
-  color:#018e38;
+  border: 1px solid #00ff88;
+  color:#00ff88;
   opacity: 0.8;
 }
 
 .btn:hover, button:hover{
   background-color: #000000;
-  border: 1px solid #018e38;
-  color:#018e38;
+  border: 1px solid #00ff88;
+  color:#00ff88;
 }
 
 body .opciones button:hover{
-  background-color: #018e38;
+  background-color: #00ff88;
   color:#000000;
 }
 
 
 
 body .swal2-confirm{
-  background-color: #018e38!important;
+  background-color: #00ff88!important;
   color:#ffffff;
   border: 0px;
 }
@@ -82,7 +82,7 @@ body .swal2-cancel:hover{
 
 
 .selected {
-  background-color: #018e38;
+  background-color: #00ff88;
   color: white;
 }
 
@@ -155,7 +155,7 @@ body .swal2-cancel:hover{
 
 .nav ul li a:hover,
 .nav ul li a.active {
-  color: #018e38; 
+  color: #00ff88; 
 }
 
 
@@ -267,13 +267,16 @@ body .swal2-cancel:hover{
 }
 
 .galeriaImagenes ul li img{
-  max-width: 300px;
-  margin: 20px;
+  width: 90% !important;
+  margin: 20px 0px;
+  border-radius: 10px;
 }
 
 .galeriaImagenes .botonesGaleria{
   display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 
@@ -309,12 +312,12 @@ body .swal2-cancel:hover{
 }
 
 .single {
-  background-color: #018e38;
+  background-color: #00ff88;
   left: 0;
 }
 
 .multi {
-  background-color: #018e38;
+  background-color: #00ff88;
   left: 50%;
 }
 
@@ -401,7 +404,7 @@ body .swal2-cancel:hover{
 .lora-button{
   background-color: #000000; 
   color: #ffffff; 
-  border-color: #018e38;
+  border-color: #00ff88;
 }
 
 .lora-button:hover {
@@ -410,9 +413,9 @@ body .swal2-cancel:hover{
 }
 
 .lora-button.selected {
-  background-color: #018e38; 
+  background-color: #00ff88; 
   color: #ffffff!important; 
-  border-color: #018e38;
+  border-color: #00ff88;
 }
 
 
@@ -534,14 +537,14 @@ span {
   font-family: 'Poppins', sans-serif;
   font-weight: 500; /* Ligeramente más grueso que el texto normal */
   font-size: 1em;
-  color: #018e38; /* Color ligeramente más claro */
+  color: #00ff88; /* Color ligeramente más claro */
 }
 
 /* Enlaces */
 a {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  color: #018e38; /* Color azul para los enlaces */
+  color: #00ff88; /* Color azul para los enlaces */
   text-decoration: none;
 }
 
@@ -1002,8 +1005,8 @@ p.littlep{
 .menusidebar ul li a, .menusidebar ul li span{
   padding: 10px;
   border-radius: 5px;
-  background-color: #018e38;
-  border: 1px solid #018e38;
+  background-color: #00ff88;
+  border: 1px solid #00ff88;
   width: 100%;
   text-align: center;
   display: block;
@@ -1011,9 +1014,9 @@ p.littlep{
 
 .menusidebar ul li a:hover, .menusidebar ul li span:hover {
   background-color: #000000;
-  border: 1px solid #018e38;
+  border: 1px solid #00ff88;
   border-radius: 5px;
-  color: #018e38;
+  color: #00ff88;
 }
 
 .menusidebar ul li a, .menusidebar ul li span {
@@ -1044,7 +1047,7 @@ p.littlep{
   margin-bottom: 20px;
   font-size: 24px;
   font-weight: bold;
-  color: #018e38;
+  color: #00ff88;
 }
 
 #idgenerator .form-group {
@@ -1056,21 +1059,21 @@ p.littlep{
   margin-bottom: 5px;
   display: block;
   text-align: left;
-  color: #018e38;
+  color: #00ff88;
 }
 
 #idgenerator .form-control {
   width: 100%;
   padding: 10px;
   font-size: 14px;
-  border: 1px solid #018e38;
+  border: 1px solid #00ff88;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
 #idgenerator .form-control:focus {
   outline: none;
-  border-color: #018e38;
+  border-color: #00ff88;
 }
 
 .botonera-gemini{
@@ -1101,7 +1104,7 @@ p.littlep{
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  border: 1px solid #018e3878;
+  border: 1px solid #00ff88;
   border-radius: 5px;
   margin: 10px 0;
 }
@@ -1135,20 +1138,20 @@ p.littlep{
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
   background-color: #000000;
-  color: #018e38;
-  border: 2px solid #018e38;
+  color: #00ff88;
+  border: 2px solid #00ff88;
 }
 
 .payment-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 15px #018e38;
+  box-shadow: 0 8px 15px #00ff88;
 }
 
 .payment-card.selected {
   border-color: #76ffab;
   color: #ffffff;
-  box-shadow: 0 8px 25px #018e38;
-  background-color: #018e38;
+  box-shadow: 0 8px 25px #00ff88;
+  background-color: #00ff88;
 }
 
 .payment-card .card-title {
