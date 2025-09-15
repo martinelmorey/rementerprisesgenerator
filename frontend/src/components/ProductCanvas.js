@@ -467,7 +467,7 @@ useEffect(() => {
           disabled={isCreatingProduct || getSelectedProductsCount() === 0}
           style={{
             width: '100%',
-            padding: '20px',
+            padding: '5px',
             fontSize: '1.1rem',
             fontWeight: '700',
             background: getSelectedProductsCount() === 0 ? 
@@ -501,7 +501,7 @@ useEffect(() => {
           }}
         >
           <span style={{ position: 'relative', zIndex: 1 }}>
-            {isCreatingProduct ? '🔄 Creando...' : `🚀 Crear ${getSelectedProductsCount()} producto(s)`}
+            {isCreatingProduct ? '🔄 Creando...' : `Crear ${getSelectedProductsCount()} producto(s)`}
           </span>
         </button>
         
