@@ -39,7 +39,7 @@ const ProductoAISchema = new mongoose.Schema({
   improvedPrompt: { type: String },
   generationMode: { 
     type: String, 
-    enum: ['LoRAs', 'Pulid', 'Generator'],
+    enum: ['LoRAs', 'Pulid', 'Generator', 'mockup'],
     required: true 
   },
   

@@ -2,6 +2,97 @@ import ProductoAI from '../models/ProductoAI.js';
 import admin from 'firebase-admin';
 import { uploadImageToWasabi } from '../wasabi.js';
 
+// Crear un producto mockup individual
+export const createMockupProduct = async (req, res) => {
+  try {
+    console.log('Request body:', req.body);
+    console.log('Request file:', req.file);
+    console.log('Request files:', req.files);
+    
+    const { 
+      userId,
+      type,
+      productType,
+      originalImageUrl,
+      originalPrompt,
+      createdAt,
+      status
+    } = req.body;
+
+    // Verificar autenticación
+    if (!req.user || !req.user.uid) {
+      return res.status(401).json({ success: false, message: 'Usuario no autenticado' });
+    }
+
+    // Validar imagen del mockup
+    const image = req.file;
+    if (!image) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Imagen del mockup es requerida',
+        debug: {
+          hasFile: !!req.file,
+          hasFiles: !!req.files,
+          bodyKeys: Object.keys(req.body)
+        }
+      });
+    }
+
+    // Subir imagen a Wasabi S3
+    const timestamp = Date.now();
+    const fileName = `mockups/${productType}-${timestamp}.jpg`;
+    
+    const uploadResult = await uploadImageToWasabi(image.buffer, fileName);
+    const mockupImageUrl = uploadResult.url;
+    
+    console.log('Generated Wasabi URL:', mockupImageUrl);
+    console.log('Upload result:', uploadResult);
+
+    // Generar nombre del producto basado en el prompt
+    let productName;
+    if (originalPrompt && originalPrompt.trim()) {
+      // Tomar las primeras 3 palabras del prompt
+      const promptWords = originalPrompt.trim().split(' ').slice(0, 3).join(' ');
+      productName = `${promptWords} - ${productType.charAt(0).toUpperCase() + productType.slice(1)} ${timestamp}`;
+    } else {
+      productName = `${productType.charAt(0).toUpperCase() + productType.slice(1)} Mockup ${timestamp}`;
+    }
+    
+    const productoAI = new ProductoAI({
+      name: productName,
+      description: `Mockup de ${productType} generado automáticamente`,
+      originalPrompt: originalPrompt || `Mockup ${productType}`,
+      generationMode: 'LoRAs', // Usar un valor válido existente temporalmente
+      selectedLoras: [],
+      generatedImage: mockupImageUrl,
+      referenceImages: originalImageUrl ? [originalImageUrl] : [],
+      generationParams: { mockupType: productType },
+      createdBy: userId || req.user.uid,
+      userEmail: req.user.email,
+      category: 'Mockup',
+      status: status || 'active',
+      createdAt: createdAt ? new Date(createdAt) : new Date()
+    });
+
+    await productoAI.save();
+
+    res.json({ 
+      success: true, 
+      productId: productoAI._id,
+      product: productoAI,
+      imageUrl: mockupImageUrl,
+      message: 'Producto mockup creado exitosamente'
+    });
+
+  } catch (error) {
+    console.error('Error creando producto mockup:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error interno del servidor al crear el producto mockup' 
+    });
+  }
+};
+
 // Crear un nuevo producto AI
 export const createProductoAI = async (req, res) => {
   try {
@@ -108,6 +199,36 @@ export const getUserProductosAI = async (req, res) => {
     .skip((page - 1) * limit)
     .exec();
 
+    // Generar URLs del proxy para las imágenes
+    const productosCorregidos = productos.map(producto => {
+      let generatedImage = producto.generatedImage;
+      
+      // Si hay una imagen, usar el proxy del backend
+      if (generatedImage) {
+        try {
+          // Extraer el nombre del archivo de la URL
+          let fileName;
+          if (generatedImage.includes('/')) {
+            fileName = generatedImage.split('/').pop();
+          }
+          
+          if (fileName) {
+            // Usar el proxy del backend en lugar de URLs directas de Wasabi
+            generatedImage = `http://localhost:5000/api/productos-ai/image/${fileName}`;
+            console.log('URL proxy generada para:', fileName);
+          }
+        } catch (error) {
+          console.error('Error generando URL proxy:', error);
+          // Mantener la URL original si falla
+        }
+      }
+      
+      return {
+        ...producto.toObject(),
+        generatedImage
+      };
+    });
+
     const total = await ProductoAI.countDocuments({ 
       createdBy: req.user.uid,
       ...(status !== 'all' && { status })
@@ -115,7 +236,7 @@ export const getUserProductosAI = async (req, res) => {
 
     res.json({
       success: true,
-      productos,
+      productos: productosCorregidos,
       totalPages: Math.ceil(total / limit),
       currentPage: page,
       total
@@ -189,9 +310,35 @@ export const deleteProductoAI = async (req, res) => {
       return res.status(403).json({ success: false, message: 'No autorizado para eliminar este producto' });
     }
 
+    // Eliminar imagen de Wasabi S3 si existe
+    if (producto.generatedImage) {
+      try {
+        const { deleteImageFromWasabi } = await import('../wasabi.js');
+        
+        // Extraer el nombre del archivo de la URL
+        let fileName;
+        if (producto.generatedImage.includes('/')) {
+          fileName = producto.generatedImage.split('/').pop();
+          // Si no tiene el prefijo mockups/, agregarlo
+          if (!producto.generatedImage.includes('mockups/')) {
+            fileName = `mockups/${fileName}`;
+          }
+        }
+        
+        if (fileName) {
+          await deleteImageFromWasabi(fileName);
+          console.log('Imagen eliminada de Wasabi:', fileName);
+        }
+      } catch (imageError) {
+        console.error('Error eliminando imagen de Wasabi:', imageError);
+        // Continuar con la eliminación del producto aunque falle la imagen
+      }
+    }
+
+    // Eliminar producto de MongoDB
     await ProductoAI.findByIdAndDelete(id);
 
-    res.json({ success: true, message: 'Producto eliminado exitosamente' });
+    res.json({ success: true, message: 'Producto e imagen eliminados exitosamente' });
 
   } catch (error) {
     console.error('Error eliminando producto AI:', error);

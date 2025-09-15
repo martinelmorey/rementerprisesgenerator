@@ -45,6 +45,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </Link>
           </li>
           <li>
+            <Link to="/mis-productos" onClick={toggleSidebar}>
+              <ShoppingBagIcon className="iconbutton" /> MIS PRODUCTOS AI
+            </Link>
+          </li>
+          <li>
             <Link to="/como-funciona" onClick={toggleSidebar}>
               <InformationCircleIcon className="iconbutton" /> COMO FUNCIONA
             </Link>

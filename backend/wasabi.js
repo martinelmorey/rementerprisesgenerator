@@ -22,20 +22,22 @@ export const uploadImageToWasabi = async (buffer, fileName, contentType = 'image
       Bucket: process.env.WASABI_BUCKET_NAME,
       Key: fileName,
       Body: buffer,
-      ContentType: contentType,
-      ACL: 'public-read'
+      ContentType: contentType
+      // Removido ACL ya que puede estar causando problemas de permisos
     });
 
     const result = await wasabi.send(command);
     
-    // Construir URL pública
-    const publicUrl = `${process.env.WASABI_ENDPOINT}/${process.env.WASABI_BUCKET_NAME}/${fileName}`;
+    // Construir URL pública - formato correcto para Wasabi
+    const region = process.env.WASABI_REGION || 'us-west-1';
+    const bucketName = process.env.WASABI_BUCKET_NAME;
+    const publicUrl = `https://s3.${region}.wasabisys.com/${bucketName}/${fileName}`;
     
     return {
       url: publicUrl,
       location: publicUrl,
       key: fileName,
-      bucket: process.env.WASABI_BUCKET_NAME,
+      bucket: bucketName,
       etag: result.ETag
     };
   } catch (error) {

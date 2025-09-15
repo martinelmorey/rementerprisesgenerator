@@ -13,6 +13,7 @@ import Payment from './components/Payment';
 import GeneratedImagesList from './components/GeneratedImageList';
 import SideBar from './components/SideBar';
 import ComoFunciona from './components/ComoFunciona';
+import MisProductosAI from './components/MisProductosAI';
 import { useAuth } from './providers/AuthContext';
 import { getAuth } from 'firebase/auth';
 
@@ -167,6 +168,7 @@ function App() {
               <Route path="/como-funciona" element={<ComoFunciona/>} />
               <Route path="/mockups" element={<MockupGenerator image={image} />} />
               <Route path="/generar-personaje" element={<GenerarPersonaje image={image} />} />
+              <Route path="/mis-productos" element={<MisProductosAI />} />
 
             </Routes>
           </div>
