@@ -214,7 +214,10 @@ export const getUserProductosAI = async (req, res) => {
           
           if (fileName) {
             // Usar el proxy del backend en lugar de URLs directas de Wasabi
-            generatedImage = `http://localhost:5000/api/productos-ai/image/${fileName}`;
+            const baseUrl = process.env.NODE_ENV === 'production' 
+              ? process.env.API_BASE_URL || 'https://your-production-domain.com'
+              : 'http://localhost:5000';
+            generatedImage = `${baseUrl}/api/productos-ai/image/${fileName}`;
             console.log('URL proxy generada para:', fileName);
           }
         } catch (error) {

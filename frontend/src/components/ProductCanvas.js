@@ -184,7 +184,7 @@ function ProductCanvas({ image, onMockupCreated }) {
         formData.append('createdAt', new Date().toISOString());
         formData.append('status', 'active');
         
-        const uploadResponse = await fetch('http://localhost:5000/api/productos-ai/create-mockup', {
+        const uploadResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/productos-ai/create-mockup`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${await currentUser.getIdToken()}`

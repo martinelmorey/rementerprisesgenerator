@@ -20,7 +20,7 @@ function MisProductosAI() {
       const token = await currentUser.getIdToken();
       
       const response = await fetch(
-        'http://localhost:5000/api/productos-ai/user/my-products',
+        `${process.env.REACT_APP_API_URL}/api/productos-ai/user/my-products`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -61,7 +61,7 @@ function MisProductosAI() {
       const token = await currentUser.getIdToken();
       
       const response = await fetch(
-        `http://localhost:5000/api/productos-ai/${productId}`,
+        `${process.env.REACT_APP_API_URL}/api/productos-ai/${productId}`,
         {
           method: 'DELETE',
           headers: {
