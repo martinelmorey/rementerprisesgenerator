@@ -125,7 +125,7 @@ function MisProductosAI() {
       ) : (
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+          gridTemplateColumns: 'repeat(4, 1fr)', 
           gap: '20px',
           marginTop: '20px'
         }}>
@@ -153,8 +153,8 @@ function MisProductosAI() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   zIndex: 10,
-                  width: '50px',
-                  height: '50px',
+                  width: '35px',
+                  height: '35px',
                   color: '#ffffff'
                 }}
                 onMouseEnter={(e) => {

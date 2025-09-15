@@ -249,25 +249,27 @@ body .swal2-cancel:hover{
 }
 
 .galeriaImagenes ul li{
-  width: 31%;
+  width: 23%;
   list-style: none;
   padding: 20px;
-  border: 1px solid #ffffff6e;
-  background-color: #8fbc8f1c;
-  border-radius: 5px;
+  position: relative;
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgb(11, 11, 11) 0%, rgba(66, 66, 66, 0.39) 100%);
   margin: 1%;
 }
 
 .galeriaImagenes ul li button{
   padding: 0;
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   justify-content: center;
   align-items: center;
 }
 
 .galeriaImagenes ul li img{
-  width: 90% !important;
+  width: 100% !important;
+  height: 300px;
+  object-fit: cover;
   margin: 20px 0px;
   border-radius: 10px;
 }
