@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Stage, Layer } from 'react-konva'; 
 import AdjustableImage from './AdjustableImage';
 import PillowMockup from './PillowMockup';
@@ -58,16 +58,48 @@ function ProductCanvas({ image, onMockupCreated }) {
   // Sin precios - productos gratuitos
 
   // Función de ajuste para cada mockup
-  const handleAdjust = useCallback((newAdjustments) => {
+  const handleAdjust = useCallback((adjustments) => {
     if (selectedMockup === 'frame') {
-      setFrameAdjustments(newAdjustments);
+      setFrameAdjustments(adjustments);
     } else if (selectedMockup === 'pillow') {
-      setPillowAdjustments(newAdjustments);
+      setPillowAdjustments(adjustments);
     } else if (selectedMockup === 'tshirt') {
-      setTshirtAdjustments(newAdjustments);
+      setTshirtAdjustments(adjustments);
     }
   }, [selectedMockup]);
 
+  const handleAutoAdjust = () => {
+    // Dimensiones del editor
+    const editorSize = 280;
+    const editorCenter = editorSize / 2; // 140
+    
+    // Tamaño más grande para que se vea bien en el mockup
+    const optimalSize = editorSize * 0.8; // 80% del editor para mejor centrado
+    
+    const autoAdjustments = {
+      x: editorCenter - optimalSize / 2, // Centrar perfectamente
+      y: editorCenter - optimalSize / 2, // Centrar perfectamente
+      width: optimalSize,
+      height: optimalSize,
+      rotation: 0
+    };
+
+    console.log('Auto-ajuste aplicado:', {
+      mockup: selectedMockup,
+      editorCenter,
+      optimalSize,
+      adjustments: autoAdjustments
+    });
+
+    // Aplicar los ajustes al mockup seleccionado
+    if (selectedMockup === 'frame') {
+      setFrameAdjustments(autoAdjustments);
+    } else if (selectedMockup === 'pillow') {
+      setPillowAdjustments(autoAdjustments);
+    } else if (selectedMockup === 'tshirt') {
+      setTshirtAdjustments(autoAdjustments);
+    }
+  };
 
   const handleMockupChange = (mockup) => {
     setSelectedMockup(mockup);
@@ -258,16 +290,13 @@ useEffect(() => {
     <div style={{ 
       display: 'flex', 
       gap: '30px', 
-      padding: '30px',
+      padding: '30px 0px',
       minHeight: '100vh',
-      backgroundColor: '#0a0a0a',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
     }}>
       {/* Panel izquierdo - Controles */}
       <div style={{ 
         width: '380px', 
         background: 'linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%)', 
-        border: '2px solid #333333',
         borderRadius: '20px', 
         padding: '30px',
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 136, 0.1)',
@@ -302,9 +331,9 @@ useEffect(() => {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             {[
-              { key: 'frame', icon: '🖼️', name: 'Cuadro' },
-              { key: 'pillow', icon: '🛏️', name: 'Almohadón' },
-              { key: 'tshirt', icon: '👕', name: 'Remera' }
+              { key: 'frame', name: 'Cuadro' },
+              { key: 'pillow', name: 'Almohadón' },
+              { key: 'tshirt', name: 'Remera' }
             ].map(product => (
               <label key={product.key} style={{ 
                 display: 'flex', 
@@ -329,7 +358,6 @@ useEffect(() => {
                     cursor: 'pointer'
                   }}
                 />
-                <span style={{ fontSize: '24px' }}>{product.icon}</span>
                 <span style={{ 
                   fontWeight: selectedProducts[product.key] ? '700' : '500',
                   color: selectedProducts[product.key] ? '#ffffff' : '#cccccc',
@@ -382,9 +410,9 @@ useEffect(() => {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {[
-              { key: 'frame', icon: '🖼️', name: 'Cuadro' },
-              { key: 'pillow', icon: '🛏️', name: 'Almohadón' },
-              { key: 'tshirt', icon: '👕', name: 'Remera' }
+              { key: 'frame', name: 'Cuadro' },
+              { key: 'pillow', name: 'Almohadón' },
+              { key: 'tshirt', name: 'Remera' }
             ].map(mockup => (
               <button 
                 key={mockup.key}
@@ -408,7 +436,6 @@ useEffect(() => {
                   overflow: 'hidden'
                 }}
               >
-                <span style={{ fontSize: '20px' }}>{mockup.icon}</span>
                 <span>{mockup.name}</span>
                 {selectedMockup === mockup.key && (
                   <div style={{
@@ -442,23 +469,69 @@ useEffect(() => {
             border: '2px solid #333333', 
             borderRadius: '15px',
             backgroundColor: '#0f0f0f',
-            padding: '5px'
+            padding: '10px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden'
           }}>
-            <Stage width={310} height={310}>
+            <Stage width={280} height={280}>
               <Layer>
-                <AdjustableImage imageUrl={image} onChange={handleAdjust} />
+                <AdjustableImage 
+                  imageUrl={image} 
+                  onChange={handleAdjust}
+                  currentAdjustments={
+                    selectedMockup === 'frame' ? frameAdjustments :
+                    selectedMockup === 'pillow' ? pillowAdjustments :
+                    tshirtAdjustments
+                  }
+                />
               </Layer>
             </Stage>
           </div>
-          <p style={{ 
-            fontSize: '0.9rem', 
-            color: '#888888', 
-            margin: '15px 0 0 0',
-            textAlign: 'center',
-            fontStyle: 'italic'
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            marginTop: '15px'
           }}>
-            💡 Arrastra los controles para ajustar posición, tamaño y rotación
-          </p>
+            <button
+              onClick={handleAutoAdjust}
+              style={{
+                padding: '12px 20px',
+                backgroundColor: '#00ff88',
+                color: '#000000',
+                border: 'none',
+                borderRadius: '10px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                fontSize: '0.9rem',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 4px 15px rgba(0, 255, 136, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#00cc6a';
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 6px 20px rgba(0, 255, 136, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#00ff88';
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 4px 15px rgba(0, 255, 136, 0.3)';
+              }}
+            >
+              🎯 Auto-ajustar Imagen
+            </button>
+            <p style={{ 
+              fontSize: '0.9rem', 
+              color: '#888888', 
+              margin: '0',
+              textAlign: 'center',
+              fontStyle: 'italic'
+            }}>
+              💡 Arrastra los controles para ajustar manualmente o usa auto-ajustar
+            </p>
+          </div>
         </div>
 
         {/* Botón de crear */}
@@ -522,7 +595,6 @@ useEffect(() => {
       <div style={{ 
         flex: 1,
         background: 'linear-gradient(145deg, #1a1a1a 0%, #0f0f0f 100%)',
-        border: '2px solid #333333',
         borderRadius: '20px',
         padding: '30px',
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 136, 0.1)'
@@ -571,19 +643,8 @@ useEffect(() => {
                 fontSize: '1rem'
               }}
             >
-              <span style={{ fontSize: '20px' }}>{tab.icon}</span>
               <span>{tab.name}</span>
-              {selectedProducts[tab.key] && (
-                <span style={{ 
-                  backgroundColor: '#00ff88', 
-                  color: '#000000', 
-                  borderRadius: '50%', 
-                  width: '10px', 
-                  height: '10px',
-                  display: 'inline-block',
-                  boxShadow: '0 0 10px rgba(0, 255, 136, 0.5)'
-                }}></span>
-              )}
+              
             </button>
           ))}
         </div>
@@ -628,7 +689,9 @@ useEffect(() => {
         {/* Indicador de estado */}
         <div style={{ 
           textAlign: 'center',
-          padding: '20px',
+          padding: '10px',
+          width: 'fit-content', 
+          margin: '0 auto',
           background: selectedProducts[selectedMockup] ? 
             'linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 106, 0.1) 100%)' : 
             'linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%)',
@@ -641,8 +704,8 @@ useEffect(() => {
           {selectedProducts[selectedMockup] ? (
             <span style={{ 
               color: '#00ff88', 
-              fontWeight: '700',
-              fontSize: '1.1rem',
+              fontWeight: '500',
+              fontSize: '0.9rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -653,8 +716,8 @@ useEffect(() => {
           ) : (
             <span style={{ 
               color: '#ff6b6b', 
-              fontWeight: '700',
-              fontSize: '1.1rem',
+              fontWeight: '500',
+              fontSize: '0.9rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

@@ -228,7 +228,7 @@ function MockupGenerator({ image, onMockupCreated }) {
                 }}
               >
                 <span style={{ position: 'relative', zIndex: 1 }}>
-                  🚀 Ir a Mi Galería
+                Ir a Mi Galería
                 </span>
               </button>
             </div>

@@ -2,49 +2,61 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
 
-function AdjustableImage({ imageUrl, onChange }) {
+function AdjustableImage({ imageUrl, onChange, currentAdjustments }) {
   const [image] = useImage(imageUrl);
   const imageRef = useRef();
   const transformerRef = useRef();
   const [initialScale, setInitialScale] = useState(1);
 
   useEffect(() => {
-    if (image) {
-      const containerWidth = 600; // Ancho del contenedor
-      const containerHeight = 600; // Alto del contenedor
-  
-      // Calcular la escala que ajustará la imagen al contenedor
-      const scale = Math.min(
-        containerWidth / image.width,
-        containerHeight / image.height
-      );
-  
-      // Aplicar la escala calculada
-      setInitialScale(scale);
-  
-      // Establecer el tamaño inicial ajustado y centralizar la imagen
-      const width = image.width * scale;
-      const height = image.height * scale;
-  
-      imageRef.current.width(width);
-      imageRef.current.height(height);
-      imageRef.current.scale({ x: 1, y: 1 });
-  
-      // Notificar los cambios iniciales
-      onChange({
-        x: (containerWidth - width) / 2, // Centrado en el contenedor
-        y: (containerHeight - height) / 2,
-        rotation: 0,
-        width: width,
-        height: height,
-      });
-  
+    if (image && imageRef.current) {
+      const containerWidth = 280;
+      const containerHeight = 280;
+      
+      if (currentAdjustments && currentAdjustments.width && currentAdjustments.height) {
+        // Usar ajustes existentes del producto seleccionado
+        imageRef.current.x(currentAdjustments.x);
+        imageRef.current.y(currentAdjustments.y);
+        imageRef.current.width(currentAdjustments.width);
+        imageRef.current.height(currentAdjustments.height);
+        imageRef.current.rotation(currentAdjustments.rotation || 0);
+        imageRef.current.scale({ x: 1, y: 1 });
+      } else {
+        // Configuración inicial solo si no hay ajustes previos
+        const baseScale = Math.min(
+          containerWidth / image.width,
+          containerHeight / image.height
+        );
+        
+        const scale = baseScale * 0.85;
+        setInitialScale(scale);
+        
+        const width = image.width * scale;
+        const height = image.height * scale;
+        
+        imageRef.current.width(width);
+        imageRef.current.height(height);
+        imageRef.current.x((containerWidth - width) / 2);
+        imageRef.current.y((containerHeight - height) / 2);
+        imageRef.current.rotation(0);
+        imageRef.current.scale({ x: 1, y: 1 });
+        
+        // Solo notificar cambios iniciales si no hay ajustes previos
+        onChange({
+          x: (containerWidth - width) / 2,
+          y: (containerHeight - height) / 2,
+          rotation: 0,
+          width: width,
+          height: height,
+        });
+      }
+      
       if (transformerRef.current) {
         transformerRef.current.nodes([imageRef.current]);
         transformerRef.current.getLayer().batchDraw();
       }
     }
-  }, [image, onChange]); // Incluye 'onChange' como dependencia
+  }, [image, currentAdjustments, onChange]);
   
 
   const handleTransformEnd = () => {
