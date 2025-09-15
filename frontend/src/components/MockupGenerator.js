@@ -55,38 +55,22 @@ function MockupGenerator({ image, onMockupCreated }) {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#0a0a0a',
       color: '#ffffff',
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
     }}>
       <div style={{
-        background: 'linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%)',
         padding: '40px 20px',
-        borderBottom: '2px solid #00ff88',
         position: 'relative',
         overflow: 'hidden'
       }}>
         {/* Efecto de fondo */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%)',
-          pointerEvents: 'none'
-        }}></div>
         
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <h1 style={{
             fontSize: '3.5rem',
             fontWeight: '800',
-            background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
+            color: '#00ff88',
             margin: '0',
-            textShadow: '0 0 30px rgba(0, 255, 136, 0.3)',
             letterSpacing: '-0.02em'
           }}>
             Generador Mockups
